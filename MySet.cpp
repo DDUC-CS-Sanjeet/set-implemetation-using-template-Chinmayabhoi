@@ -2,6 +2,7 @@
 #include<math.h>
 #include<string.h>
 
+
 using namespace std;
 template<typename T>
 class MySet
@@ -28,7 +29,6 @@ class MySet
 	}
     void input()
     {
-        char c;
         
             cout<<"Enter element of your set : \n";
             for(int i =0;i<n;i++)
@@ -102,7 +102,7 @@ class MySet
 		cout<<"}"; 
 	} 
     
-		 MySet& operator +(MySet b)
+    MySet operator +(const MySet& b)
     {
         MySet temp;
         temp.set(this->n+b.n);
@@ -118,7 +118,7 @@ class MySet
         temp.removeduplicate();
         return temp;
     }
-    MySet& operator *(MySet b)
+    MySet operator *(const MySet& b)
     {
         int index=0;
         for(int i=0;i<this->n;i++)
@@ -144,7 +144,7 @@ class MySet
         return temp;
     }
 
-    MySet& operator -(MySet b)
+    MySet operator -(const MySet& b)
     {
     	bool flag=false;
         int index=0;
@@ -188,14 +188,14 @@ class MySet
         return temp;
     }
 
-    void operator =(MySet b)
+    void operator =(const MySet& b)
     {
         b.n=this->n;
         for(int i=0;i<b.n;i++)
             b.p[i]=this->p[i];
     }
 
-    bool operator ==(MySet b)
+    bool operator ==(const MySet& b)
     {
         if(this->n!=b.n )
             return false;
@@ -221,253 +221,169 @@ class MySet
                if(flag==false)
                     break;
                else if(flag && j==this->n-1)
-                    break;
+               {
+               	flag=false;
+               	break;
+			   }
+                    
                j++;
             }
-            if(flag)
+            if(!flag)
                 return true;
             
             return false;
         }
     }
+    
+    MySet operator ^(MySet m)
+    {
+    		MySet temp;
+    		temp.set(this->n);
+    		temp.p=this->p;
+            MySet w=(temp+m);
+            MySet u=(temp*m);
+            
+    		return (w-u);    
+	}
 };
 
-int main()
-{
-//	MySet<double> a();
-//	MySet<double> b();
-//	MySet<char> c();
-//	MySet<char> d();
-//	MySet<string> e();
-//	MySet<string> f();
-
-	
-    int choice,choice2,n,m;
-    char h;
-    do 
-     {
-        cout<<"1 for powerset of a set"<<endl;
-        cout<<"2 for union of two set"<<endl;
-        cout<<"3 for intersection of two set"<<endl;
-        cout<<"4 for difference between two set"<<endl;
+template<typename T>
+void set(T a)
+{	
+    int choice,n,m;
+    	cout<<"\t\t 1 for powerset of a set"<<endl;
+        cout<<"\t\t 2 for union of two set"<<endl;
+        cout<<"\t\t 3 for intersection of two set"<<endl;
+        cout<<"\t\t 4 for difference between two set"<<endl;
+        cout<<"\t\t 5 for equality of two set "<<endl;
+        cout<<"\t\t 6 for symmetric difference "<<endl;
         cout<<"Enter your choice : ";
         cin>>choice;
-
-        switch(choice)
-        {
-            case 1:
-                cout<<"\nenter 1 for numeric element in a set "<<endl;
-                cout<<"enter 2 for character element in a set "<<endl;
-                cout<<"enter 3 for string type element "<<endl;
-                cout<<"Enter your type : ";
-                cin>>choice2;
-    
-                switch(choice2)
-                {
-                   case 1:
-                  
-                        {
-                       	cout<<"Enter the size of set : ";
-                        cin>>n;
-                    	MySet<double> a(n);
-                        a.powerset();
-                        break;
-						}
-                    
-                    case 2 :
-                   
-                       {
-                       	cout<<"Enter the size of set : ";
-                        cin>>n;
-                        MySet<char> c(n);
-                        c.powerset();
-                        break;
-					   }
-                    
-                    case 3:
-                   
-                    {
-                    	cout<<"Enter the size of set : ";
-                        cin>>n;
-                        MySet<string> e(n);
-                        e.powerset();
-                        break;
-					}
-                        
-                        break;
-	             }
-                
-            case 2:
-                cout<<"\nEnter 1 for numeric elenemt in a set "<<endl;
-                cout<<"Enter 2 for character element in a set "<<endl;
-                cout<<"Enter 3 for string type element "<<endl;
-                cout<<"Enter your type : ";
-                cin>>choice2;
-               switch(choice2)
-               {
-                    case 1:
-                    
-                    {
-                    	                    
-                    	cout<<"Enter the size of first set : ";
-                        cin>>n;
-                        MySet<double> a(n);
-                        cout<<"\nEnter the size of second set : ";
-                        cin>>m;
-                        MySet<double> b(m);
-                        MySet<double> x=a+b;
-                        x.display();
-                        break;	
-					}
-
-					
-                    
-                    case 2:
-                   
-                    {
-                    	cout<<"Enter the size of first set : ";
-                        cin>>n;
-                        MySet<char> c(n);
-                        cout<<"\nEnter the size of second set : ";
-                        cin>>m;
-                        MySet<char> d(m);
-                        MySet<char> y=c+d;
-                        y.display();
-                        break;
-					}
-           
-                    
-                   case 3:
-                   
-                   {
-                   	    cout<<"Enter the size of first set : ";
-                        cin>>n;
-                        MySet<string> c(n);
-                        cout<<"\nEnter the size of second set : ";
-                        cin>>m;
-                        MySet<string> d(m);
-                        MySet<string> z=c+d;
-                        z.display();
-                        break;
-				   }
-
-                     
-                }  
-                case 3:
-
-                cout<<"\nEnter 1 for numeric elenemt in a set "<<endl;
-                cout<<"Enter 2 for character element in a set "<<endl;
-                cout<<"Enter 3 for string type element "<<endl;
-                cout<<"Enter your type : ";
-                cin>>choice2;
-                	switch(choice2)
-                    {
-					
-                    case 1:
-                    {
-                    	cout<<"Enter the size of first set : ";
-                        cin>>n;
-                        MySet<double> a(n);
-                        cout<<"\nEnter the size of second set : ";
-                        cin>>m;
-                        MySet<double> b(m);
-                        MySet<double> x=a*b;
-                        x.display();
-                        break;
-					}
-                    
-
-
-                    case 2:
-                    {
-                    	cout<<"Enter the size of first set : ";
-                        cin>>n;
-                        MySet<char> c(n);
-                        cout<<"\nEnter the size of second set : ";
-                        cin>>m;
-                        MySet<char> d(m);
-                        MySet<char> y=c*d;
-                        y.display();
-                        break;
-					}
-
-                    case 3:
-                   {
-                   	    cout<<"Enter the size of first set : ";
-                        cin>>n;
-                        MySet<string> c(n);
-                        cout<<"\nEnter the size of second set : ";
-                        cin>>m;
-                        MySet<string> d(m);
-                        MySet<string> z=c*d;
-                        z.display();
-                        break;
-				}
-						break;
-			}
-
-                case 4:
-                cout<<"\nEnter 1 for numeric elenemt in a set "<<endl;
-                cout<<"Enter 2 for character element in a set "<<endl;
-                cout<<"Enter 3 for string type element "<<endl;
-                cout<<"Enter your type : ";
-                cin>>choice2;
-
-                    switch(choice2)
-                    {
-                    	
-					case 1:
-                    {
-                    	cout<<"Enter the size of first set : ";
-                        cin>>n;
-                        MySet<double> a(n);
-                        cout<<"\nEnter the size of second set : ";
-                        cin>>m;
-                        MySet<double> b(m);
-                        MySet<double> x=a-b;
-                        x.display();
-                        break;
-					}
-                    
-
-
-                    case 2:
-                    {
-                    	cout<<"Enter the size of first set : ";
-                        cin>>n;
-                        MySet<char> c(n);
-                        cout<<"\nEnter the size of second set : ";
-                        cin>>m;
-                        MySet<char> d(m);
-                        MySet<char> y=c-d;
-                        y.display();
-                        break;
-					}
-
-                    case 3:
-                   {
-                   	    cout<<"Enter the size of first set : ";
-                        cin>>n;
-                        MySet<string> c(n);
-                        cout<<"\nEnter the size of second set : ";
-                        cin>>m;
-                        MySet<string> d(m);
-                        MySet<string> z=c-d;
-                        z.display();
-                        break;
-				   }
-                default:
-                cout<<"Invalid choice "<<endl;
-				break; 
-        }
-    }
-        cout<<"\nDo you want to continue y/n : ";
-        cin>>h;
         
-
-    }while(h=='y');
-    return 0;
-
+    switch(choice)
+    {
+    	case 1:
+        {
+        	cout<<"Enter the size of set : ";
+            cin>>n;
+            MySet<T> b(n);
+           	b.powerset();
+        }
+			break;
+		
+		case 2:
+		{
+			cout<<"Enter the size of first set : ";
+            cin>>n;
+            MySet<T> c(n);
+            cout<<"\nEnter the size of second set : ";
+            cin>>m;
+            MySet<T> d(m);
+           	MySet<T> x=c+d;
+            x.display();
+		}
+        	break;
+			
+            
+		case 3:
+		{
+			cout<<"Enter the size of first set : ";
+            cin>>n;
+            MySet<T> e(n);
+            cout<<"\nEnter the size of second set : ";
+            cin>>m;
+            MySet<T> f(m);
+            MySet<T> y=e*f;
+            y.display();
+		}
+            break;
+			
+		case 4:
+		{
+			cout<<"Enter the size of first set : ";
+            cin>>n;
+            MySet<T> g(n);
+            cout<<"\nEnter the size of second set : ";
+            cin>>m;
+            MySet<T> h(m);
+            MySet<T> z=g-h;
+            z.display();
+		}
+            break;
+			
+		case 5:
+		{
+			cout<<"Enter the size of first set : ";
+            cin>>n;
+            MySet<T> i(n);
+            cout<<"\nEnter the size of second set : ";
+            cin>>m;
+            MySet<T> j(m);
+			if(i==j)
+				cout<<"two sets are equal "<<endl;
+			else
+				cout<<"two sets are not equal "<<endl;
+		}	
+            break;	
+            
+        case 6:
+        {
+        	cout<<"Enter the size of first set : ";
+            cin>>n;
+        	MySet<T> k(n);
+            cout<<"\nEnter the size of second set : ";
+            cin>>m;
+            MySet<T> q(m);
+            MySet<T> v=k^q;
+            v.display();
+		}
+            break;
+			
+		default :
+			cout<<"Invalid choice "<<endl;
+	}
+    
 }
 
+int main()
+{	
+    int choice2;
+    double a=5.0;
+    string g="null";
+    char h='n';
+    do 
+     {
+     	cout<<"\nEnter 1 for int elenemt in a set "<<endl;
+        cout<<"enter 2 for character element in a set "<<endl;
+        cout<<"enter 3 for double type element "<<endl;
+        cout<<"enter 4 for string type element "<<endl;
+        
+        cout<<"Enter your type : ";
+        cin>>choice2;
+        switch(choice2)
+        {
+        	case 1:
+        		set(choice2);
+        		break;
+        	case 2:
+        		set(h);
+        		break;
+        	case 3:
+        		set(a);
+        		break;
+        	case 4:
+        		set(g);
+        		break;
+        		
+        	default:
+        			cout<<"Invalid choice"<<endl;
+        		
+		}
+		
+        cout<<"\nDo you want to continue y/n : ";
+        cin>>h;
+    
+    }while(h=='y');
+    return 0;
+}
 
